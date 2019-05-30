@@ -12,7 +12,7 @@ const userschema = new Schema({
         required: true
     },
     name: {
-        type: Schema.Types.String,
+        type: 'string',
         required: true
     },
     salt: {

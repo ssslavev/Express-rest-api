@@ -5,9 +5,10 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth-router');
 app.use(bodyParser.json());
 
-require('./database/db')();
+
 
 app.use('/auth', authRoutes);
+require('./database/db')();
 
 
 app.listen(port, () => {

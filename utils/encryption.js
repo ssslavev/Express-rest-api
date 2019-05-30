@@ -4,10 +4,10 @@ module.exports = {
 
     generateSalt: () => {
 
-        crypto.randomBytes(128).toString('base64')
+        return crypto.randomBytes(128).toString('base64')
 
     },
     generateHashedPassword: (salt, password) => {
-        crypto.createHmac('sha256', salt).update(password).digest('hex');
+        return crypto.createHmac('sha256', salt).update(password).digest('hex');
     }
 }
