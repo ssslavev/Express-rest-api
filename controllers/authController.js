@@ -99,6 +99,22 @@ module.exports = {
                 }
             })
 
+    },
+
+    findUserById: (req, res) => {
+
+        const id = req.params.id;
+
+        User.findById(id)
+            .then((user) => {
+                if (user) {
+                    res.status(200).json({ id: user._id, nickname: user.nickname, email: user.email, phone: user.phone, country: user.country });
+                } else {
+                    res.status(404).json({ message: "User not found!" });
+                }
+            })
+
+
     }
 
 
