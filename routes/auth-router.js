@@ -30,6 +30,11 @@ router.post('/signup', [
         .trim()
         .isLength({ max: 40 })
 ], authController.signUp);
+
 router.post('/signin', authController.signIn);
+
+router.post('/user', authController.findUserByName);
+
+router.post('/email', authController.findIfEmailExists);
 
 module.exports = router;

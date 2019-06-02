@@ -22,6 +22,7 @@ module.exports = {
 
     signUp: (req, res) => {
         if (validateUser(req, res)) {
+
             const { email, password, nickname, phone, country } = req.body;
             const salt = encryption.generateSalt();
             const hashedPassword = encryption.generateHashedPassword(salt, password);
@@ -35,7 +36,7 @@ module.exports = {
                 country
             }).then((user) => {
                 res.status(201)
-                    .json({ message: "User created", userId: user._id });
+                    .json({ message: "You are registered successfully!", userId: user._id });
             })
                 .catch((error) => {
                     res.status(500)
@@ -62,10 +63,43 @@ module.exports = {
                     userId: +user._id
                 }, 'superescret', { expiresIn: '1h' });
 
-                res.status(200).json({ message: "You are logged in!", token, userId: user._id });
+                res.status(200).json({ message: "You are logged in!", token, userId: user._id, nickname: user.nickname });
             })
             .catch((err) => {
                 res.status(500).json({ message: "Internal server error", err });
             })
+    },
+
+
+    findUserByName: (req, res) => {
+
+        const { nickname } = req.body;
+
+        User.findOne({ nickname: nickname })
+            .then((user) => {
+
+                if (user) {
+                    res.status(200).json({ message: "User was found!", status: true, user });
+                } else {
+                    res.status(200).json({ message: "User not found", status: false });
+                }
+            });
+    },
+
+    findIfEmailExists: (req, res) => {
+
+        const { email } = req.body
+
+        User.findOne({ email: email })
+            .then((user) => {
+                if (user) {
+                    res.status(200).json({ message: "Email is already in use!", status: true });
+                } else {
+                    res.status(200).json({ message: "Email is free!", status: false });
+                }
+            })
+
     }
+
+
 }
