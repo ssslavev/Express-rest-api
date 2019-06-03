@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const port = process.env.PORT || 3000;
 const app = express();
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors());
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth-router');
 app.use(bodyParser.json());
