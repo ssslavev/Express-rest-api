@@ -46,7 +46,7 @@ module.exports = {
     },
 
     signIn: (req, res) => {
-        const { nickname, password } = req.body;
+        const { nickname, password, checkbox } = req.body;
 
         User.findOne({ nickname: nickname })
             .then((user) => {
@@ -58,10 +58,21 @@ module.exports = {
                     return res.status(400).json({ message: 'Password not match' });
                 }
 
-                const token = jwt.sign({
-                    nickname: user.nickname,
-                    userId: +user._id
-                }, 'superescret', { expiresIn: '1h' });
+                let token = '';
+
+                if (checkbox) {
+                    token = jwt.sign({
+                        nickname: user.nickname,
+                        userId: +user._id
+                    }, 'superescret', { expiresIn: '60d' });
+                } else {
+                    token = jwt.sign({
+                        nickname: user.nickname,
+                        userId: +user._id
+                    }, 'superescret', { expiresIn: '1h' });
+                }
+
+
 
                 res.status(200).json({ message: "You are logged in!", token, userId: user._id, nickname: user.nickname });
             })
@@ -112,9 +123,29 @@ module.exports = {
                 } else {
                     res.status(404).json({ message: "User not found!" });
                 }
+            });
+    },
+
+    updateUser: (req, res) => {
+
+        const { id, nickname, phone, country } = req.body.user;
+
+        const updateOptions = {
+            nickname: nickname,
+            phone: phone,
+            country: country,
+        }
+
+
+
+        User.updateOne({ _id: id }, updateOptions)
+            .then((user) => {
+                if (!user) {
+                    res.status(404).end();
+                }
+
+                res.status(200).json({ message: "Your profile was updated!" });
             })
-
-
     }
 
 

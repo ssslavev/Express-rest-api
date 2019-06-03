@@ -39,4 +39,6 @@ router.post('/email', authController.findIfEmailExists);
 
 router.get('/user/:id', authController.findUserById);
 
+router.put('/user', authController.updateUser);
+
 module.exports = router;
