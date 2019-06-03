@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-
 mongoose.Promise = global.Promise;
 
+const connectionString = 'mongodb+srv://ssslavev:Taekwondo89$@notifications-cjvuz.gcp.mongodb.net/codix-rest-api-db?retryWrites=true';
+
 module.exports = () => {
-    mongoose.connect('mongodb://localhost/rest-api-db', {
+    mongoose.connect(connectionString, {
         useNewUrlParser: true
     });
 
